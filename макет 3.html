@@ -1,0 +1,1509 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ПРЯМИКОМ - Цифровая платформа управления доставкой | B2B решения</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        :root {
+            --primary-orange: #FF5722;
+            --primary-orange-dark: #E64A19;
+            --primary-orange-light: #FF7043;
+            --secondary-blue: #2563eb;
+            --secondary-blue-dark: #1d4ed8;
+            --text-primary: #0f172a;
+            --text-secondary: #475569;
+            --text-muted: #64748b;
+            --surface-white: #ffffff;
+            --surface-gray: #f8fafc;
+            --surface-dark: #1e293b;
+            --border-light: #e2e8f0;
+            --border-focus: #FF5722;
+            --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+            --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+            --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+            --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+            --radius-sm: 0.375rem;
+            --radius-md: 0.5rem;
+            --radius-lg: 0.75rem;
+            --radius-xl: 1rem;
+            --spacing-xs: 0.25rem;
+            --spacing-sm: 0.5rem;
+            --spacing-md: 1rem;
+            --spacing-lg: 1.5rem;
+            --spacing-xl: 2rem;
+            --spacing-2xl: 3rem;
+            --spacing-3xl: 4rem;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: var(--surface-white);
+            color: var(--text-primary);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+        
+        .header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border-light);
+            padding: var(--spacing-lg) 0;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+        
+        .header.scrolled {
+            background: rgba(255, 255, 255, 0.98);
+            box-shadow: var(--shadow-md);
+            padding: var(--spacing-md) 0;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 var(--spacing-lg);
+        }
+        
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            transition: transform 0.3s ease;
+        }
+        
+        .logo:hover {
+            transform: scale(1.02);
+        }
+        
+        .logo svg {
+            height: 40px;
+            width: auto;
+        }
+        
+        .nav {
+            display: flex;
+            gap: var(--spacing-2xl);
+        }
+        
+        .nav a {
+            text-decoration: none;
+            color: var(--text-secondary);
+            font-weight: 500;
+            font-size: 15px;
+            transition: all 0.3s ease;
+            position: relative;
+            padding: var(--spacing-sm) 0;
+        }
+        
+        .nav a:hover {
+            color: var(--primary-orange);
+        }
+        
+        .cta-header {
+            background: var(--primary-orange);
+            color: white;
+            padding: var(--spacing-md) var(--spacing-lg);
+            border: none;
+            border-radius: var(--radius-lg);
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            white-space: nowrap;
+        }
+        
+        .cta-header:hover {
+            background: var(--primary-orange-dark);
+            transform: translateY(-1px);
+            box-shadow: var(--shadow-lg);
+        }
+        
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: var(--text-primary);
+        }
+        
+        .hero {
+            padding: 140px 0 var(--spacing-3xl);
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hero::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23FF5722' fill-opacity='0.03' fill-rule='evenodd'%3E%3Cpath d='m0 40l40-40h-40v40zm40 0v-40h-40l40 40z'/%3E%3C/g%3E%3C/svg%3E") repeat;
+        }
+        
+        .hero-content {
+            display: grid;
+            grid-template-columns: 1.3fr 0.7fr;
+            gap: var(--spacing-3xl);
+            align-items: center;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .hero-text h1 {
+            font-size: clamp(2.5rem, 5vw, 3.5rem);
+            font-weight: 700;
+            margin-bottom: var(--spacing-lg);
+            line-height: 1.1;
+            letter-spacing: -0.02em;
+            color: var(--text-primary);
+        }
+        
+        .hero-text .subtitle {
+            font-size: 1.125rem;
+            margin-bottom: var(--spacing-xl);
+            color: var(--text-secondary);
+            font-weight: 400;
+            line-height: 1.6;
+        }
+        
+        .cta-group {
+            display: flex;
+            gap: var(--spacing-lg);
+            margin-bottom: var(--spacing-2xl);
+            flex-wrap: wrap;
+        }
+        
+        .cta-button {
+            background: var(--primary-orange);
+            color: white;
+            padding: var(--spacing-lg) var(--spacing-2xl);
+            border: none;
+            border-radius: var(--radius-lg);
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: var(--spacing-sm);
+            box-shadow: var(--shadow-md);
+        }
+        
+        .cta-button:hover {
+            background: var(--primary-orange-dark);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-xl);
+        }
+        
+        .cta-button.secondary {
+            background: transparent;
+            color: var(--text-primary);
+            border: 2px solid var(--border-light);
+            box-shadow: none;
+        }
+        
+        .cta-button.secondary:hover {
+            background: var(--surface-gray);
+            border-color: var(--primary-orange);
+            color: var(--primary-orange);
+        }
+        
+        .trust-badges {
+            display: flex;
+            gap: var(--spacing-xl);
+            margin-top: var(--spacing-lg);
+            flex-wrap: wrap;
+        }
+        
+        .trust-badge {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-sm);
+            font-size: 14px;
+            color: var(--text-secondary);
+        }
+        
+        .trust-badge .icon {
+            width: 20px;
+            height: 20px;
+            background: var(--primary-orange);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 12px;
+        }
+        
+        .hero-image {
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .platform-preview {
+            background: var(--surface-white);
+            padding: var(--spacing-2xl);
+            border-radius: var(--radius-xl);
+            box-shadow: var(--shadow-xl);
+            border: 1px solid var(--border-light);
+            transform: rotate(-2deg);
+            animation: float 6s ease-in-out infinite;
+            max-width: 400px;
+            width: 100%;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: rotate(-2deg) translateY(0px); }
+            50% { transform: rotate(-2deg) translateY(-8px); }
+        }
+        
+        .platform-preview h3 {
+            color: var(--text-primary);
+            margin-bottom: var(--spacing-lg);
+            font-size: 1.25rem;
+            font-weight: 600;
+            text-align: center;
+        }
+        
+        .preview-metrics {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--spacing-md);
+            margin-bottom: var(--spacing-lg);
+        }
+        
+        .metric-card {
+            background: var(--surface-gray);
+            padding: var(--spacing-md);
+            border-radius: var(--radius-md);
+            text-align: center;
+        }
+        
+        .metric-number {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary-orange);
+            display: block;
+        }
+        
+        .metric-label {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            margin-top: var(--spacing-xs);
+        }
+        
+        .preview-status {
+            background: linear-gradient(135deg, var(--primary-orange), var(--primary-orange-light));
+            color: white;
+            padding: var(--spacing-md);
+            border-radius: var(--radius-md);
+            text-align: center;
+            font-size: 14px;
+            font-weight: 500;
+        }
+        
+        .social-proof {
+            padding: var(--spacing-2xl) 0;
+            background: var(--surface-white);
+            border-bottom: 1px solid var(--border-light);
+        }
+        
+        .social-proof h3 {
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 0.875rem;
+            font-weight: 500;
+            margin-bottom: var(--spacing-xl);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        
+        .clients-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+            gap: var(--spacing-lg);
+            align-items: center;
+        }
+        
+        .client-logo {
+            height: 40px;
+            background: var(--surface-gray);
+            border-radius: var(--radius-md);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-muted);
+            font-weight: 600;
+            font-size: 14px;
+            opacity: 0.7;
+            transition: opacity 0.3s ease;
+            border: 1px solid var(--border-light);
+        }
+        
+        .client-logo:hover {
+            opacity: 1;
+        }
+        
+        .features {
+            padding: var(--spacing-3xl) 0;
+            background: var(--surface-gray);
+        }
+        
+        .section-header {
+            text-align: center;
+            max-width: 700px;
+            margin: 0 auto var(--spacing-3xl);
+        }
+        
+        .section-header h2 {
+            font-size: clamp(1.875rem, 4vw, 2.25rem);
+            font-weight: 700;
+            margin-bottom: var(--spacing-lg);
+            color: var(--text-primary);
+            letter-spacing: -0.02em;
+        }
+        
+        .section-header p {
+            font-size: 1.125rem;
+            color: var(--text-secondary);
+            line-height: 1.7;
+        }
+        
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: var(--spacing-2xl);
+        }
+        
+        .feature-card {
+            background: var(--surface-white);
+            padding: var(--spacing-2xl);
+            border-radius: var(--radius-xl);
+            box-shadow: var(--shadow-sm);
+            transition: all 0.3s ease;
+            border: 1px solid var(--border-light);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--primary-orange), var(--primary-orange-light));
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-lg);
+        }
+        
+        .feature-card:hover::before {
+            transform: scaleX(1);
+        }
+        
+        .feature-icon {
+            width: 48px;
+            height: 48px;
+            background: linear-gradient(135deg, var(--primary-orange), var(--primary-orange-light));
+            border-radius: var(--radius-lg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: var(--spacing-lg);
+            font-size: 1.5rem;
+        }
+        
+        .feature-card h3 {
+            font-size: 1.25rem;
+            margin-bottom: var(--spacing-md);
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+        
+        .feature-card p {
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+        
+        .stats-section {
+            padding: var(--spacing-3xl) 0;
+            background: var(--surface-white);
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: var(--spacing-2xl);
+        }
+        
+        .stat-card {
+            text-align: center;
+            padding: var(--spacing-xl);
+            background: var(--surface-gray);
+            border-radius: var(--radius-xl);
+            border: 1px solid var(--border-light);
+        }
+        
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--primary-orange);
+            display: block;
+            margin-bottom: var(--spacing-sm);
+        }
+        
+        .stat-label {
+            font-size: 1rem;
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+        
+        .calculator-section {
+            padding: var(--spacing-3xl) 0;
+            background: var(--surface-gray);
+            position: relative;
+        }
+        
+        .calculator-form {
+            background: var(--surface-white);
+            padding: var(--spacing-2xl);
+            border-radius: var(--radius-xl);
+            box-shadow: var(--shadow-lg);
+            max-width: 600px;
+            margin: 0 auto;
+            border: 1px solid var(--border-light);
+        }
+        
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--spacing-lg);
+            margin-bottom: var(--spacing-lg);
+        }
+        
+        .form-row.full {
+            grid-template-columns: 1fr;
+        }
+        
+        .form-group {
+            position: relative;
+        }
+        
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: var(--spacing-lg);
+            border: 2px solid var(--border-light);
+            border-radius: var(--radius-lg);
+            font-size: 16px;
+            color: var(--text-primary);
+            background: var(--surface-white);
+            transition: all 0.3s ease;
+            font-family: inherit;
+        }
+        
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--border-focus);
+            box-shadow: 0 0 0 3px rgba(255, 87, 34, 0.1);
+        }
+        
+        .service-options {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: var(--spacing-md);
+            margin: var(--spacing-lg) 0;
+        }
+        
+        .service-option {
+            padding: var(--spacing-lg);
+            border: 2px solid var(--border-light);
+            border-radius: var(--radius-lg);
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: var(--surface-gray);
+            min-height: 100px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .service-option:hover {
+            border-color: var(--primary-orange);
+            background: var(--surface-white);
+            transform: translateY(-2px);
+        }
+        
+        .service-option.active {
+            border-color: var(--primary-orange);
+            background: var(--surface-white);
+            box-shadow: var(--shadow-md);
+        }
+        
+        .service-icon {
+            font-size: 1.5rem;
+            margin-bottom: var(--spacing-sm);
+        }
+        
+        .service-name {
+            font-weight: 600;
+            font-size: 0.875rem;
+            color: var(--text-primary);
+            margin-bottom: 2px;
+        }
+        
+        .service-desc {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            line-height: 1.2;
+        }
+        
+        .service-option.active .service-name {
+            color: var(--primary-orange);
+        }
+        
+        .price-result {
+            background: linear-gradient(135deg, var(--primary-orange), var(--primary-orange-light));
+            color: white;
+            padding: var(--spacing-xl);
+            border-radius: var(--radius-lg);
+            text-align: center;
+            margin-top: var(--spacing-lg);
+            font-size: 1.125rem;
+            font-weight: 600;
+            box-shadow: var(--shadow-md);
+        }
+        
+        .price-result .price {
+            font-size: 2rem;
+            display: block;
+            margin: var(--spacing-sm) 0;
+            font-weight: 700;
+        }
+        
+        .calc-button {
+            width: 100%;
+            background: var(--primary-orange);
+            color: white;
+            padding: var(--spacing-lg);
+            border: none;
+            border-radius: var(--radius-lg);
+            font-size: 1.125rem;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: var(--spacing-lg);
+            transition: all 0.3s ease;
+            box-shadow: var(--shadow-md);
+        }
+        
+        .calc-button:hover {
+            background: var(--primary-orange-dark);
+            transform: translateY(-1px);
+            box-shadow: var(--shadow-lg);
+        }
+        
+        .callback-section {
+            padding: var(--spacing-3xl) 0;
+            background: var(--surface-white);
+        }
+        
+        .footer {
+            background: var(--surface-dark);
+            color: white;
+            padding: var(--spacing-3xl) 0 var(--spacing-xl);
+        }
+        
+        .footer-content {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: var(--spacing-2xl);
+            margin-bottom: var(--spacing-2xl);
+        }
+        
+        .footer-section h4 {
+            font-size: 1.125rem;
+            font-weight: 600;
+            margin-bottom: var(--spacing-lg);
+            color: white;
+        }
+        
+        .footer-section p,
+        .footer-section a {
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+            line-height: 1.6;
+            transition: color 0.3s ease;
+            font-size: 14px;
+        }
+        
+        .footer-section a:hover {
+            color: var(--primary-orange);
+        }
+        
+        .footer-links {
+            display: flex;
+            flex-direction: column;
+            gap: var(--spacing-sm);
+        }
+        
+        .footer-bottom {
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding-top: var(--spacing-xl);
+            text-align: center;
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 14px;
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+            .hero-content {
+                grid-template-columns: 1fr;
+                gap: var(--spacing-2xl);
+                text-align: center;
+            }
+            
+            .footer-content {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 0 var(--spacing-md);
+            }
+            
+            .hero {
+                padding: 120px 0 var(--spacing-2xl);
+            }
+            
+            .cta-group {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .cta-button {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+            
+            .nav {
+                display: none;
+            }
+            
+            .mobile-menu-btn {
+                display: block;
+            }
+            
+            .service-options {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .footer-content {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+            
+            .trust-badges {
+                justify-content: center;
+            }
+            
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .service-options {
+                grid-template-columns: 1fr;
+            }
+            
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .clients-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        
+        /* Accessibility */
+        @media (prefers-reduced-motion: reduce) {
+            * {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+        
+        /* Focus states for accessibility */
+        button:focus-visible,
+        input:focus-visible,
+        select:focus-visible,
+        textarea:focus-visible,
+        a:focus-visible {
+            outline: 2px solid var(--primary-orange);
+            outline-offset: 2px;
+        }
+        
+        /* Utility classes */
+        .text-center { text-align: center; }
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border: 0;
+        }
+    </style>
+</head>
+<body>
+    <header class="header" id="header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="179" height="75" viewBox="0 0 179 75" fill="none">
+                        <path d="M174.32 32.5433H113.945L132.319 28.3898L119.557 23.6114L147.693 26.0703C147.693 26.0703 148.717 21.6217 146.586 15.5852C143.621 7.19425 135.239 2.10437 135.239 2.10437C135.239 2.10437 144.898 3.7969 153.416 11.5731C160.497 18.0318 162.286 27.1993 162.286 27.1993C162.286 27.1993 170.706 27.9185 174.32 32.5433Z" fill="#FF742E"></path>
+                        <path d="M19.7571 49.5035V66.5415H14.8168V53.5566H7.72498V66.5415H2.80722V49.5035H19.7571Z" fill="#FF5A00"></path>
+                        <path d="M38.6372 50.3436C39.9249 51.0605 40.9844 52.1258 41.6944 53.4172C42.4562 54.8309 42.8381 56.4181 42.803 58.0235C42.803 59.7775 42.4335 61.3137 41.6944 62.6319C40.9839 63.923 39.9245 64.9881 38.6372 65.7055C37.3165 66.4401 35.8269 66.8173 34.3157 66.7997C32.1424 66.7997 30.4348 66.1167 29.1931 64.7506V72.699H24.2466V49.5035H28.9595V51.4665C30.1889 49.9898 31.973 49.2515 34.3116 49.2515C35.8241 49.2316 37.3155 49.6081 38.6372 50.3436V50.3436ZM36.5882 61.4578C37.3996 60.6026 37.806 59.4572 37.8073 58.0215C37.8087 56.5858 37.4023 55.441 36.5882 54.5873C35.7582 53.7654 34.6375 53.3043 33.4695 53.3043C32.3015 53.3043 31.1807 53.7654 30.3508 54.5873C29.5312 55.441 29.1213 56.5858 29.1213 58.0215C29.1213 59.4572 29.5312 60.6026 30.3508 61.4578C31.1807 62.2796 32.3015 62.7407 33.4695 62.7407C34.6375 62.7407 35.7582 62.2796 36.5882 61.4578V61.4578Z" fill="#FF5A00"></path>
+                        <path d="M61.1626 49.5034V66.5414H56.7592V61.6626H53.1201L49.8887 66.5414H44.6328L48.526 60.9659C47.4442 60.5784 46.5015 59.8789 45.8172 58.9558C45.1762 58.0209 44.849 56.9065 44.8828 55.7736C44.8828 53.7669 45.6061 52.2205 47.0528 51.1345C48.4994 50.0485 50.4891 49.5021 53.0217 49.4952L61.1626 49.5034ZM50.7288 54.0954C50.1906 54.4752 49.9215 55.0899 49.9215 55.9396C49.9215 56.7892 50.1796 57.4074 50.696 57.794C51.2144 58.1833 51.9992 58.3779 53.0565 58.3779H56.7592V53.5258H53.1201C52.0627 53.5258 51.2656 53.7156 50.7288 54.0954Z" fill="#FF5A00"></path>
+                        <path d="M91.7184 49.5035H96.6361V59.6382L104.933 49.5035H109.461V66.5415H104.543V56.4068L96.2796 66.5415H91.7184V49.5035Z" fill="#FF5A00"></path>
+                        <path d="M118.979 58.0215L124.93 49.5035H130.188L124.233 57.6732L130.599 66.5415H124.772L118.953 58.2961" fill="#FF5A00"></path>
+                        <path d="M119.034 49.5035H114.094V66.5395H119.034V49.5035Z" fill="#FF5A00"></path>
+                        <path d="M135.648 65.6685C134.266 64.96 133.11 63.88 132.308 62.5498C131.52 61.1711 131.106 59.6105 131.106 58.0224C131.106 56.4343 131.52 54.8737 132.308 53.495C133.11 52.1643 134.266 51.0835 135.648 50.3743C137.148 49.6356 138.798 49.2515 140.47 49.2515C142.142 49.2515 143.791 49.6356 145.291 50.3743C146.667 51.0874 147.818 52.1676 148.617 53.495C149.405 54.8737 149.82 56.4343 149.82 58.0224C149.82 59.6105 149.405 61.1711 148.617 62.5498C147.814 63.8783 146.659 64.9579 145.279 65.6685C143.779 66.4085 142.13 66.7935 140.457 66.7935C138.785 66.7935 137.136 66.4085 135.636 65.6685H135.648ZM143.597 61.4577C144.416 60.6025 144.826 59.4571 144.826 58.0214C144.826 56.5857 144.416 55.4409 143.597 54.5872C143.197 54.165 142.713 53.8324 142.175 53.6113C141.637 53.3902 141.059 53.2856 140.478 53.3044C139.895 53.2865 139.314 53.3914 138.774 53.6124C138.234 53.8334 137.746 54.1655 137.343 54.5872C136.523 55.4409 136.113 56.5857 136.113 58.0214C136.113 59.4571 136.523 60.6025 137.343 61.4577C137.747 61.8789 138.234 62.2108 138.774 62.4317C139.314 62.6527 139.895 62.7578 140.478 62.7404C141.058 62.7583 141.636 62.6533 142.172 62.4322C142.709 62.2111 143.193 61.879 143.593 61.4577H143.597Z" fill="#FF5A00"></path>
+                        <path d="M169.855 66.5415V56.3495L163.774 65.0355L157.694 56.3187V66.5477H153.229V49.5035H158.393L163.839 57.5953L169.634 49.5035H174.259L174.322 66.5415H169.855Z" fill="#FF5A00"></path>
+                        <path d="M82.5365 66.5415V56.3495L76.4569 65.0355L70.3773 56.3187V66.5477H65.9124V49.5035H71.074L76.5204 57.5953L82.3152 49.5035H86.9379L87.0014 66.5415H82.5365Z" fill="#FF5A00"></path>
+                    </svg>
+                </div>
+                <nav class="nav">
+                    <a href="#about">Платформа</a>
+                    <a href="#features">Продукты</a>
+                    <a href="#calculator">Калькулятор</a>
+                    <a href="#callback">Сотрудничество</a>
+                </nav>
+                <a href="#callback" class="cta-header">Начать работу</a>
+                <button class="mobile-menu-btn" id="mobileMenuBtn">☰</button>
+            </div>
+        </div>
+    </header>
+
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <div class="hero-text">
+                    <h1>Цифровая платформа управления доставкой</h1>
+                    <p class="subtitle">Мы предоставляем продавцам услуги аутсорсинга доставки: от цифровой системы управления онлайн-заказами до их доставки получателям</p>
+                    
+                    <div class="cta-group">
+                        <button class="cta-button" onclick="scrollToSection('calculator')">
+                            Рассчитать стоимость
+                        </button>
+                        <a href="#callback" class="cta-button secondary">
+                            Обсудить сотрудничество
+                        </a>
+                    </div>
+                    
+                    <div class="trust-badges">
+                        <div class="trust-badge">
+                            <div class="icon">✓</div>
+                            <span>Технологичность решений</span>
+                        </div>
+                        <div class="trust-badge">
+                            <div class="icon">🎯</div>
+                            <span>Курьероцентричность</span>
+                        </div>
+                        <div class="trust-badge">
+                            <div class="icon">📊</div>
+                            <span>AI-алгоритмы</span>
+                        </div>
+                        <div class="trust-badge">
+                            <div class="icon">⚡</div>
+                            <span>Ультрабыстрая доставка</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="hero-image">
+                    <div class="platform-preview">
+                        <h3>Управление в реальном времени</h3>
+                        <div class="preview-metrics">
+                            <div class="metric-card">
+                                <span class="metric-number">247</span>
+                                <span class="metric-label">Активных заказов</span>
+                            </div>
+                            <div class="metric-card">
+                                <span class="metric-number">98%</span>
+                                <span class="metric-label">В срок</span>
+                            </div>
+                            <div class="metric-card">
+                                <span class="metric-number">156</span>
+                                <span class="metric-label">Курьеров онлайн</span>
+                            </div>
+                            <div class="metric-card">
+                                <span class="metric-number">4.9</span>
+                                <span class="metric-label">Рейтинг</span>
+                            </div>
+                        </div>
+                        <div class="preview-status">
+                            📱 AI-система распределения заказов активна
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="social-proof">
+        <div class="container">
+            <h3>Нам доверяют лидеры рынка</h3>
+            <div class="clients-grid">
+                <div class="client-logo">Wildberries</div>
+                <div class="client-logo">Ozon</div>
+                <div class="client-logo">ЯндексЕда</div>
+                <div class="client-logo">Delivery Club</div>
+                <div class="client-logo">Лента</div>
+                <div class="client-logo">Магнит</div>
+                <div class="client-logo">М.Видео</div>
+                <div class="client-logo">Детский мир</div>
+            </div>
+        </div>
+    </section>
+
+    <section class="stats-section">
+        <div class="container">
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <span class="stat-number" data-target="70">70+</span>
+                    <span class="stat-label">Городов России</span>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-number" data-target="5000">5000+</span>
+                    <span class="stat-label">Доставок в день</span>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-number" data-target="98">98%</span>
+                    <span class="stat-label">Успешных доставок</span>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-number" data-target="24">24/7</span>
+                    <span class="stat-label">Техподдержка</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="features" id="about">
+        <div class="container">
+            <div class="section-header">
+                <h2>В основе нашей философии — технологичность решений и курьероцентричность бизнеса</h2>
+                <p>Комплексная платформа для управления логистикой последней мили с использованием искусственного интеллекта и передовых технологий</p>
+            </div>
+            
+            <div class="features-grid" id="features">
+                <div class="feature-card">
+                    <div class="feature-icon">🤖</div>
+                    <h3>AI-алгоритмы оптимизации</h3>
+                    <p>Интеллектуальная система распределения заказов и построения маршрутов, которая учитывает трафик, загруженность курьеров и приоритеты доставки</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">📱</div>
+                    <h3>Цифровая система управления</h3>
+                    <p>Полноценная CRM для управления заказами, курьерами и клиентами с детальной аналитикой и отчетностью в реальном времени</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🚀</div>
+                    <h3>Ультрабыстрая доставка</h3>
+                    <p>Доставка в течение 30-60 минут по городу благодаря оптимизированной логистике и собственной курьерской сети</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🌍</div>
+                    <h3>Федеральное покрытие</h3>
+                    <p>Присутствие в 70+ городах России с планами выхода на европейские рынки. Единая платформа для всех регионов</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🔗</div>
+                    <h3>API интеграция</h3>
+                    <p>Простая интеграция с существующими системами через REST API. Поддержка всех популярных CMS и e-commerce платформ</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">📊</div>
+                    <h3>Бизнес-аналитика</h3>
+                    <p>Детальная аналитика эффективности доставки, КПЭ курьеров, satisfaction клиентов и ROI логистических процессов</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="calculator-section" id="calculator">
+        <div class="container">
+            <div class="section-header">
+                <h2>Калькулятор стоимости доставки</h2>
+                <p>Получите предварительный расчет стоимости доставки для интеграции в ваш бизнес-процесс</p>
+            </div>
+            
+            <form class="calculator-form" id="deliveryForm">
+                <div class="form-row">
+                    <div class="form-group">
+                        <input type="text" placeholder="Город отправления" id="fromAddress" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="text" placeholder="Город назначения" id="toAddress" required>
+                    </div>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <select id="deliveryType" required>
+                            <option value="">Тип доставки</option>
+                            <option value="express">Экспресс (30-60 мин)</option>
+                            <option value="fast">Быстрая (1-2 часа)</option>
+                            <option value="standard">Стандартная (2-4 часа)</option>
+                            <option value="scheduled">По расписанию</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <select id="transportType" required>
+                            <option value="">Способ доставки</option>
+                            <option value="foot">Пешком</option>
+                            <option value="bike">Велокурьер</option>
+                            <option value="car">Легковой автомобиль</option>
+                            <option value="van">Коммерческий транспорт</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-row full">
+                    <div class="form-group">
+                        <input type="text" placeholder="Описание груза (выберите категорию ниже)" id="cargoDescription">
+                    </div>
+                </div>
+
+                <div style="margin-bottom: var(--spacing-md);">
+                    <label style="color: var(--text-primary); font-weight: 600; font-size: 16px;">Категория товара:</label>
+                </div>
+
+                <div class="service-options">
+                    <div class="service-option" data-service="documents">
+                        <div class="service-icon">📄</div>
+                        <div class="service-name">Документы</div>
+                        <div class="service-desc">Договоры, справки</div>
+                    </div>
+                    <div class="service-option" data-service="goods">
+                        <div class="service-icon">📦</div>
+                        <div class="service-name">Товары</div>
+                        <div class="service-desc">Интернет-заказы</div>
+                    </div>
+                    <div class="service-option" data-service="food">
+                        <div class="service-icon">🍕</div>
+                        <div class="service-name">Еда</div>
+                        <div class="service-desc">Готовые блюда</div>
+                    </div>
+                    <div class="service-option" data-service="flowers">
+                        <div class="service-icon">💐</div>
+                        <div class="service-name">Цветы</div>
+                        <div class="service-desc">Букеты, подарки</div>
+                    </div>
+                    <div class="service-option" data-service="medicine">
+                        <div class="service-icon">💊</div>
+                        <div class="service-name">Лекарства</div>
+                        <div class="service-desc">Медикаменты</div>
+                    </div>
+                    <div class="service-option" data-service="other">
+                        <div class="service-icon">📋</div>
+                        <div class="service-name">Другое</div>
+                        <div class="service-desc">Укажите что</div>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <input type="number" placeholder="Вес (кг)" id="weight" min="0" step="0.1">
+                    </div>
+                    <div class="form-group">
+                        <input type="tel" placeholder="Телефон для связи" id="phone" required>
+                    </div>
+                </div>
+
+                <button type="submit" class="calc-button">Рассчитать стоимость</button>
+                
+                <div class="price-result" id="priceResult" style="display: none;">
+                    Предварительная стоимость: <span class="price">от 450 ₽</span>
+                    Время доставки: 1-2 часа
+                </div>
+            </form>
+        </div>
+    </section>
+
+    <section class="callback-section" id="callback">
+        <div class="container">
+            <div class="section-header">
+                <h2>Обсудим возможности сотрудничества</h2>
+                <p>Мы свяжемся с вами и расскажем про возможности сотрудничества. Индивидуальные условия для каждого бизнеса</p>
+            </div>
+            
+            <form class="calculator-form" id="callbackForm">
+                <div class="form-row">
+                    <div class="form-group">
+                        <input type="text" placeholder="Название компании" id="companyName" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="text" placeholder="Ваше имя" id="userName" required>
+                    </div>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <input type="tel" placeholder="Телефон" id="callbackPhone" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="email" placeholder="Email" id="email">
+                    </div>
+                </div>
+
+                <div class="form-row full">
+                    <div class="form-group">
+                        <textarea placeholder="Расскажите о ваших потребностях в логистике: объемы заказов, география, специфика товаров..." id="description" rows="4"></textarea>
+                    </div>
+                </div>
+
+                <button type="submit" class="calc-button">Отправить заявку</button>
+                
+                <div style="font-size: 14px; color: var(--text-muted); margin-top: var(--spacing-lg); text-align: center;">
+                    Нажимая на кнопку, я соглашаюсь на обработку <a href="#" style="color: var(--primary-orange); text-decoration: underline;">персональных данных</a>
+                </div>
+                
+                <div class="price-result" id="callbackResult" style="display: none;">
+                    Спасибо! Мы свяжемся с вами в ближайшее время и расскажем про возможности сотрудничества.
+                </div>
+            </form>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>ПРЯМИКОМ</h4>
+                    <p>Цифровая платформа управления доставкой. Технологичные решения для вашего бизнеса с использованием AI-алгоритмов.</p>
+                    <p style="margin-top: var(--spacing-lg);">
+                        <strong>partner@masterdelivery.ru</strong><br>
+                        Москва, Старопетровский проезд, 11, корпус 1
+                    </p>
+                </div>
+                <div class="footer-section">
+                    <h4>Продукты</h4>
+                    <div class="footer-links">
+                        <a href="#features">Доставка последней мили</a>
+                        <a href="#features">Межгородская логистика</a>
+                        <a href="#features">API для интеграции</a>
+                        <a href="#calculator">Калькулятор стоимости</a>
+                    </div>
+                </div>
+                <div class="footer-section">
+                    <h4>Сотрудничество</h4>
+                    <div class="footer-links">
+                        <a href="#callback">Для бизнеса</a>
+                        <a href="#callback">Партнерство</a>
+                        <a href="#">Стать курьером</a>
+                        <a href="#">Вакансии</a>
+                    </div>
+                </div>
+                <div class="footer-section">
+                    <h4>Контакты</h4>
+                    <div class="footer-links">
+                        <a href="tel:+74959999999">+7 (495) 999-99-99</a>
+                        <a href="mailto:partner@masterdelivery.ru">partner@masterdelivery.ru</a>
+                        <a href="#callback">Техподдержка 24/7</a>
+                        <a href="#">Политика конфиденциальности</a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 ПРЯМИКОМ. Все права защищены.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Плавная прокрутка к секциям
+        function scrollToSection(sectionId) {
+            const target = document.getElementById(sectionId);
+            if (target) {
+                const headerHeight = 80;
+                const targetPosition = target.offsetTop - headerHeight;
+                
+                window.scrollTo({
+                    top: targetPosition,
+                    behavior: 'smooth'
+                });
+            }
+        }
+
+        // Эффект скролла для хедера
+        window.addEventListener('scroll', function() {
+            const header = document.getElementById('header');
+            if (window.scrollY > 50) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        });
+
+        // Анимация счетчиков статистики
+        function animateCounters() {
+            const counters = document.querySelectorAll('.stat-number');
+            
+            counters.forEach(counter => {
+                const target = counter.getAttribute('data-target');
+                if (!target) return;
+                
+                const number = parseInt(target);
+                if (isNaN(number)) return;
+                
+                let current = 0;
+                const increment = number / 60;
+                const timer = setInterval(() => {
+                    current += increment;
+                    if (current >= number) {
+                        counter.textContent = target.includes('+') ? number + '+' : 
+                                            target.includes('%') ? number + '%' : 
+                                            target.includes('/') ? target : number;
+                        clearInterval(timer);
+                    } else {
+                        counter.textContent = Math.floor(current);
+                    }
+                }, 30);
+            });
+        }
+
+        // Intersection Observer для анимаций
+        const observerOptions = {
+            threshold: 0.3,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver(function(entries) {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    if (entry.target.classList.contains('stats-section')) {
+                        animateCounters();
+                        observer.unobserve(entry.target);
+                    }
+                }
+            });
+        }, observerOptions);
+
+        // Наблюдаем за секцией статистики
+        const statsSection = document.querySelector('.stats-section');
+        if (statsSection) {
+            observer.observe(statsSection);
+        }
+
+        // Обработка выбора категории товара
+        document.querySelectorAll('.service-option').forEach(option => {
+            option.addEventListener('click', function() {
+                document.querySelectorAll('.service-option').forEach(opt => opt.classList.remove('active'));
+                this.classList.add('active');
+                
+                const serviceName = this.querySelector('.service-name').textContent;
+                const serviceDesc = this.querySelector('.service-desc').textContent;
+                const cargoField = document.getElementById('cargoDescription');
+                
+                cargoField.value = `${serviceName} (${serviceDesc})`;
+                cargoField.focus();
+            });
+        });
+
+        // Обработка формы калькулятора
+        document.getElementById('deliveryForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const fromAddress = document.getElementById('fromAddress').value;
+            const toAddress = document.getElementById('toAddress').value;
+            const deliveryType = document.getElementById('deliveryType').value;
+            const transportType = document.getElementById('transportType').value;
+            const phone = document.getElementById('phone').value;
+            
+            // Валидация
+            if (!fromAddress || !toAddress || !deliveryType || !transportType || !phone) {
+                alert('Пожалуйста, заполните все обязательные поля');
+                return;
+            }
+            
+            // Расчет стоимости
+            let basePrice = 400;
+            
+            const deliveryMultiplier = {
+                'express': 2.5,
+                'fast': 1.5,
+                'standard': 1,
+                'scheduled': 0.8
+            };
+            
+            const transportMultiplier = {
+                'foot': 1,
+                'bike': 1.2,
+                'car': 1.6,
+                'van': 2.2
+            };
+            
+            const weight = parseFloat(document.getElementById('weight').value) || 1;
+            const weightMultiplier = weight > 5 ? 1 + (weight - 5) * 0.1 : 1;
+            
+            const finalPrice = Math.round(basePrice * deliveryMultiplier[deliveryType] * transportMultiplier[transportType] * weightMultiplier);
+            
+            const timeMap = {
+                'express': '30-60 минут',
+                'fast': '1-2 часа',
+                'standard': '2-4 часа',
+                'scheduled': 'по расписанию'
+            };
+            
+            // Показываем результат
+            const resultDiv = document.getElementById('priceResult');
+            resultDiv.innerHTML = `
+                Предварительная стоимость: <span class="price">${finalPrice} ₽</span>
+                Время доставки: ${timeMap[deliveryType]}
+                <br><small style="opacity: 0.8;">*Точная стоимость зависит от условий договора</small>
+            `;
+            
+            resultDiv.style.display = 'block';
+            resultDiv.style.opacity = '0';
+            resultDiv.style.transform = 'translateY(20px)';
+            
+            setTimeout(() => {
+                resultDiv.style.transition = 'all 0.5s ease';
+                resultDiv.style.opacity = '1';
+                resultDiv.style.transform = 'translateY(0)';
+            }, 100);
+            
+            // Прокрутка к результату
+            setTimeout(() => {
+                resultDiv.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }, 300);
+        });
+
+        // Обработка формы обратного звонка
+        document.getElementById('callbackForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const companyName = document.getElementById('companyName').value;
+            const userName = document.getElementById('userName').value;
+            const phone = document.getElementById('callbackPhone').value;
+            
+            if (!companyName || !userName || !phone) {
+                alert('Пожалуйста, заполните все обязательные поля');
+                return;
+            }
+            
+            const resultDiv = document.getElementById('callbackResult');
+            resultDiv.style.display = 'block';
+            
+            resultDiv.style.opacity = '0';
+            resultDiv.style.transform = 'translateY(20px)';
+            
+            setTimeout(() => {
+                resultDiv.style.transition = 'all 0.5s ease';
+                resultDiv.style.opacity = '1';
+                resultDiv.style.transform = 'translateY(0)';
+            }, 100);
+            
+            this.reset();
+            
+            setTimeout(() => {
+                resultDiv.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }, 300);
+        });
+
+        // Плавная прокрутка по якорям
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href').substring(1);
+                scrollToSection(targetId);
+            });
+        });
+
+        // Мобильное меню
+        document.getElementById('mobileMenuBtn').addEventListener('click', function() {
+            const nav = document.querySelector('.nav');
+            if (nav.style.display === 'flex') {
+                nav.style.display = 'none';
+            } else {
+                nav.style.display = 'flex';
+                nav.style.flexDirection = 'column';
+                nav.style.position = 'absolute';
+                nav.style.top = '100%';
+                nav.style.left = '0';
+                nav.style.right = '0';
+                nav.style.background = 'white';
+                nav.style.padding = 'var(--spacing-lg)';
+                nav.style.boxShadow = 'var(--shadow-lg)';
+                nav.style.borderRadius = '0 0 var(--radius-lg) var(--radius-lg)';
+            }
+        });
+
+        // Маска для телефона
+        function phoneMask(input) {
+            input.addEventListener('input', function(e) {
+                let value = e.target.value.replace(/\D/g, '');
+                
+                if (value.length > 0) {
+                    if (value[0] === '8') {
+                        value = '7' + value.slice(1);
+                    }
+                    if (value[0] === '7') {
+                        value = value.slice(0, 11);
+                        const match = value.match(/^7(\d{0,3})(\d{0,3})(\d{0,2})(\d{0,2})$/);
+                        if (match) {
+                            e.target.value = '+7' + 
+                                (match[1] ? ' (' + match[1] + (match[1].length === 3 ? ') ' : '') : '') +
+                                (match[2] ? match[2] + (match[2].length === 3 ? '-' : '') : '') +
+                                (match[3] ? match[3] + (match[3].length === 2 ? '-' : '') : '') +
+                                (match[4] ? match[4] : '');
+                        }
+                    }
+                }
+            });
+        }
+
+        // Применяем маску к полям телефона
+        phoneMask(document.getElementById('phone'));
+        phoneMask(document.getElementById('callbackPhone'));
+
+        // Улучшенная валидация email
+        document.getElementById('email').addEventListener('blur', function() {
+            if (this.value && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(this.value)) {
+                this.style.borderColor = '#e53e3e';
+                if (!this.nextElementSibling || !this.nextElementSibling.classList.contains('error-message')) {
+                    const errorDiv = document.createElement('div');
+                    errorDiv.className = 'error-message';
+                    errorDiv.style.color = '#e53e3e';
+                    errorDiv.style.fontSize = '14px';
+                    errorDiv.style.marginTop = '4px';
+                    errorDiv.textContent = 'Введите корректный email адрес';
+                    this.parentNode.insertBefore(errorDiv, this.nextSibling);
+                }
+            } else {
+                this.style.borderColor = '';
+                const errorMsg = this.nextElementSibling;
+                if (errorMsg && errorMsg.classList.contains('error-message')) {
+                    errorMsg.remove();
+                }
+            }
+        });
+
+        // Lazy loading эффекты
+        const lazyElements = document.querySelectorAll('.feature-card, .stat-card');
+        const lazyObserver = new IntersectionObserver(function(entries) {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                    lazyObserver.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.1 });
+
+        lazyElements.forEach(el => {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(20px)';
+            el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+            lazyObserver.observe(el);
+        });
+
+        // Система уведомлений
+        function showNotification(message, type = 'success') {
+            const notification = document.createElement('div');
+            notification.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                padding: var(--spacing-lg);
+                border-radius: var(--radius-lg);
+                color: white;
+                font-weight: 500;
+                z-index: 10000;
+                transform: translateX(400px);
+                transition: transform 0.3s ease;
+                max-width: 400px;
+                box-shadow: var(--shadow-xl);
+            `;
+            
+            notification.style.background = type === 'success' 
+                ? 'linear-gradient(135deg, #10b981, #059669)' 
+                : 'linear-gradient(135deg, #ef4444, #dc2626)';
+                
+            notification.textContent = message;
+            document.body.appendChild(notification);
+            
+            setTimeout(() => notification.style.transform = 'translateX(0)', 100);
+            setTimeout(() => {
+                notification.style.transform = 'translateX(400px)';
+                setTimeout(() => notification.remove(), 300);
+            }, 4000);
+        }
+
+        // Предзагрузка критических ресурсов
+        window.addEventListener('load', function() {
+            // Можно добавить предзагрузку изображений, если они есть
+            console.log('🚀 ПРЯМИКОМ платформа загружена успешно');
+        });
+
+        // Обработка ошибок JavaScript
+        window.addEventListener('error', function(e) {
+            console.error('Ошибка на странице:', e.error);
+        });
+
+        // Отслеживание производительности
+        if ('performance' in window) {
+            window.addEventListener('load', function() {
+                const perfData = performance.getEntriesByType('navigation')[0];
+                console.log('Время загрузки страницы:', Math.round(perfData.loadEventEnd - perfData.fetchStart), 'мс');
+            });
+        }
+    </script>
+</body>
+</html>
